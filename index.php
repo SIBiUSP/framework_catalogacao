@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Framework de Catalogação do SIBiUSP</title>
+<title>Framework de Catalogação SIBiUSP</title>
 
 <!-- Jquery -->
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -47,9 +47,9 @@
           <div class="form-group">
             <label for="exampleInputFile">Enviar um arquivo MARC</label>
             <input type="file" id="exampleInputFile">
-            <p class="help-block">Example block-level help text here.</p>
+            <p class="help-block">Aceita arquivos .mrc e MARCXML.</p>
           </div>
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Buscar ou enviar arquivo</button>
         </form>
       </div>
     </div>
