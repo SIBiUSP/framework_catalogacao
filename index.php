@@ -4,6 +4,7 @@
 
 <?php
   include "inc/meta_header.php";
+  include "inc/config.php";
 ?>
 
 </head>
