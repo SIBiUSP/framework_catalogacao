@@ -20,18 +20,18 @@
 error_reporting(E_ALL|E_STRICT);
 ini_set('display_errors', 1);
 */
-$query =  array('_id' => ''.$_GET['_id'].'');
+$query =  array(''.$_GET['idx'].'' => ''.$_GET['_id'].'');
 $cursor = $c->findOne($query);
 
 
 echo '_id:'.$cursor["_id"].'<br/>';
 
 if (!empty($cursor["subtitle"])) {
-  echo '<a href="single.php?_id='.$cursor["_id"].'">'.$cursor["title"].':'.$cursor["subtitle"].'</a><br/>';
+  echo '<a href="single.php?idx=_id&q='.$cursor["_id"].'">'.$cursor["title"].':'.$cursor["subtitle"].'</a><br/>';
 }
 else
 {
-  echo '<a href="single.php?_id='.$cursor["_id"].'">'.$cursor["title"].'</a><br/>';
+  echo '<a href="single.php?idx=_id&q='.$cursor["_id"].'">'.$cursor["title"].'</a><br/>';
 }
 
 if (!empty($cursor["authors"])) {
@@ -43,9 +43,7 @@ echo 'Sysno:'.$cursor["sysno"].'<br/>';
 echo '<br/><br/>';
 
 
-echo '<form method="post" action="edit.php">';
-echo '<input type="hidden" name="extra_submit_param" value="extra_submit_value">';
-echo '<button type="submit" name="page" class="btn btn-primary-outline" value="'.$cursor["_id"].'">Editar</button>';
+
 
 ?>
 

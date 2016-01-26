@@ -6,6 +6,29 @@
   include "inc/meta_header.php";
   include "inc/config.php";
 
+  /* Query */
+  if(isset($_GET['full_text'])) {
+    $query_array = array();
+      foreach ($_GET as $key=>$value) {
+        $query[$key] = $value;
+    }
+
+    $qstring = "?";
+    foreach($_GET as $key => $val)
+    {
+        $qstring .= '"' . $val . '"&';
+    }
+
+    $query = array ('$text' => array('$search'=>''.$qstring.''));
+  }
+  else {
+    $query_array = array();
+      foreach ($_GET as $key=>$value) {
+        $query[$key] = $value;
+    }
+  }
+
+
   /* Pegar a URL atual */
   $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
   $escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
@@ -19,9 +42,6 @@
   $next  = ($page + 1);
   $prev  = ($page - 1);
   $sort  = array('title' => -1);
-
-$query = array("sysno" => "002687592");
-
 
 ?>
 
@@ -37,9 +57,6 @@ $query = array("sysno" => "002687592");
 <?php
     function generateFacet($url,$c,$query,$facet_name,$sort_name,$sort_value,$facet_display_name,$limit){
       $aggregate_facet=array(
-        array(
-          '$match'=>$query
-        ),
         array(
           '$unwind'=>$facet_name
         ),
@@ -119,11 +136,11 @@ foreach ($cursor as $r) {
 echo '_id:'.$r["_id"].'<br/>';
 
 if (!empty($r["subtitle"])) {
-  echo '<a href="single.php?idx=_id&q='.$r["_id"].'">'.$r["title"].':'.$r["subtitle"].'</a><br/>';
+  echo '<a href="single.php?_id='.$r["_id"].'">'.$r["title"].':'.$r["subtitle"].'</a><br/>';
 }
 else
 {
-  echo '<a href="single.php?idx=_id&q='.$r["_id"].'">'.$r["title"].'</a><br/>';
+  echo '<a href="single.php?_id='.$r["_id"].'">'.$r["title"].'</a><br/>';
 }
 
 if (!empty($r["authors"])) {

@@ -19,14 +19,21 @@
       <div class="col-md-4">.col-md-4</div>
       <div class="col-md-8">
         <h1>Pesquisar</h1>
-        <form>
+          <div class="form-group">
+            <form action="results.php" method="get">
+            <label for="inputAll">Todos os campos</label>
+            <input type="text" class="form-control" name="full_text" id="inputAll" placeholder="Insira o título para a pesquisa">
+            <button type="submit" class="btn btn-default">Buscar ou enviar arquivo</button>
+          </form>
+          </div>
+        <form action="results.php" method="get">
           <div class="form-group">
             <label for="inputTitulo">Título</label>
             <input type="text" class="form-control" id="inputTitulo" placeholder="Insira o título para a pesquisa">
           </div>
           <div class="form-group">
             <label for="inputAutores">Autores</label>
-            <input type="text" class="form-control" id="inputAutores" placeholder="Insira os autores para a pesquisa">
+            <input type="text" class="form-control" id="inputAutores" name="authors" placeholder="Insira os autores para a pesquisa">
           </div>
           <div class="form-group">
             <label for="inputAutores">Autores</label>
