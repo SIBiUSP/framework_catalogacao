@@ -42,10 +42,23 @@ if (!empty($cursor["authors"])) {
 echo 'Sysno:'.$cursor["sysno"].'<br/>';
 echo '<br/><br/>';
 
+<form>
+  <fieldset class="form-group">
+    <label for="formGroupExampleInput">Título</label>
+    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="formGroupExampleInput2">Subtítulo</label>
+    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+  </fieldset>
+</form>
 
-echo '<form method="post" action="edit.php">';
-echo '<input type="hidden" name="extra_submit_param" value="extra_submit_value">';
-echo '<button type="submit" name="page" class="btn btn-primary-outline" value="'.$cursor["_id"].'">Editar</button>';
+
+
+
+echo '<form method="get" action="edit.php">';
+echo '<input type="hidden">';
+echo '<button type="submit" name="_id" class="btn btn-primary-outline" value="'.$cursor["_id"].'">Editar</button>';
 
 ?>
 
