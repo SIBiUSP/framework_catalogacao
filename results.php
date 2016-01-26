@@ -5,6 +5,24 @@
 <?php
   include "inc/meta_header.php";
   include "inc/config.php";
+
+  /* Pegar a URL atual */
+  $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+  $escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
+  $pattern = '/page=\d/i';
+  $url_sem_page = preg_replace($pattern,'',$escaped_url);
+
+  /* Pagination variables */
+  $page  = isset($_POST['page']) ? (int) $_POST['page'] : 1;
+  $limit = 12;
+  $skip  = ($page - 1) * $limit;
+  $next  = ($page + 1);
+  $prev  = ($page - 1);
+  $sort  = array('title' => -1);
+
+$query = array("sysno" => "002687592");
+
+
 ?>
 
 </head>
@@ -14,27 +32,51 @@
     include "inc/header.php";
   ?>
   <div class="row">
-  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+  <div class="col-xs-6 col-md-4">
+
+<?php
+    function generateFacet($url,$c,$query,$facet_name,$sort_name,$sort_value,$facet_display_name,$limit){
+      $aggregate_facet=array(
+        array(
+          '$match'=>$query
+        ),
+        array(
+          '$unwind'=>$facet_name
+        ),
+        array(
+          '$group' => array(
+            "_id"=>$facet_name,
+            "count"=>array('$sum'=>1)
+            )
+        ),
+        array(
+          '$sort' => array($sort_name=>$sort_value)
+        )
+      );
+
+    $facet = $c->aggregate($aggregate_facet);
+
+    echo '<ul class="list-group">';
+    echo '<a href="#" class="list-group-item active">'.$facet_display_name.'</a>';
+    $i = 0;
+    foreach ($facet["result"] as $facets) {
+      echo '<li class="list-group-item"><span class="label label-default label-pill pull-xs-right">'.$facets["count"].'</span><a href="'.$url.'&'.substr($facet_name, 1).'='.$facets["_id"].'">'.$facets["_id"].'</a></li>';
+      if(++$i > $limit) break;
+    };
+    echo "</ul>";
+    }
+
+generateFacet($url,$c,$query,"\$authors","count",-1,"Autores",20);
+
+?>
+
+
+  </div>
   <div class="col-xs-12 col-sm-6 col-md-8">
 
 
 <?php
 
-/* Pegar a URL atual */
-$url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-$escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
-$pattern = '/page=\d/i';
-$url_sem_page = preg_replace($pattern,'',$escaped_url);
-
-/* Pagination variables */
-$page  = isset($_POST['page']) ? (int) $_POST['page'] : 1;
-$limit = 12;
-$skip  = ($page - 1) * $limit;
-$next  = ($page + 1);
-$prev  = ($page - 1);
-$sort  = array('title' => -1);
-
-$query = array("sysno" => "002687592");
 $cursor = $c->find()->skip($skip)->limit($limit)->sort($sort);;
 $total= $cursor->count();
 
