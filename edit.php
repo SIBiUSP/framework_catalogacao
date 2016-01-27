@@ -33,7 +33,10 @@ $c->update(array('_id'=>$_id),
            array('$set'=>array(
              'title'=>$_POST["title"],
              'subtitle'=>$_POST["subtitle"],
-             'authors'=>$_POST["authors"]
+             'authors'=>$_POST["authors"],
+             'local_de_publicacao'=>$_POST["local_de_publicacao"],
+             'editora'=>$_POST["editora"],
+             'data_de_publicacao'=>$_POST["data_de_publicacao"]
            )));
 
 echo '
@@ -56,9 +59,12 @@ if (!empty($cursor["subtitle"])) {
 else {
   $subtitle="";
 }
+$local_de_publicacao=$cursor["local_de_publicacao"];
+$editora=$cursor["editora"];
+$data_de_publicacao=$cursor["data_de_publicacao"];
+
 
 $count_authors = count($cursor["authors"]);
-
 ?>
 
 <div class="row">
@@ -98,8 +104,28 @@ echo '<input type="text" class="form-control" id="inputPassword3" placeholder="A
 echo '</div></div>';
 }
 
-
 ?>
+
+<div class="form-group row">
+  <label for="inputLocal" class="col-sm-2 form-control-label">Local</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" id="inputPassword3" placeholder="Local" name="local_de_publicacao" value="<?php echo "$local_de_publicacao";  ?>">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="inputEditora" class="col-sm-2 form-control-label">Editora</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" id="inputPassword3" placeholder="Editora" name="editora" value="<?php echo "$editora";  ?>">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="inputDatadePublicacao" class="col-sm-2 form-control-label">Data de publicação</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" id="inputPassword3" placeholder="Data de publicação" name="data_de_publicacao" value="<?php echo "$data_de_publicacao";  ?>">
+  </div>
+</div>
+
+
   <div class="form-group row">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" class="btn btn-secondary">Salvar</button>

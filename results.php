@@ -151,6 +151,31 @@ if (!empty($r["authors"])) {
     echo 'Autores:'.$at.'<br/>';
   }
 }
+
+if (!empty($r["local_de_publicacao"])) {
+  $local_de_publicacao=$r["local_de_publicacao"];
+}
+else {
+  $local_de_publicacao="";
+}
+
+if (!empty($r["editora"])) {
+  $editora=$r["editora"];
+}
+else {
+  $editora="";
+}
+
+
+if (!empty($r["data_de_publicacao"])) {
+  $data_de_publicacao=$r["data_de_publicacao"];
+}
+else {
+  $data_de_publicacao="";
+}
+
+echo 'Imprenta:'.$local_de_publicacao.': '.$editora.', '.$data_de_publicacao.'<br/>';
+
 echo 'Sysno:'.$r["sysno"].'<br/>';
 echo '<br/><br/>';
 
