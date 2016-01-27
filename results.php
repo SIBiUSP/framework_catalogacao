@@ -58,6 +58,9 @@
     function generateFacet($url,$c,$query,$facet_name,$sort_name,$sort_value,$facet_display_name,$limit){
       $aggregate_facet=array(
         array(
+          '$match'=>$query
+        ),
+        array(
           '$unwind'=>$facet_name
         ),
         array(
@@ -94,7 +97,7 @@ generateFacet($url,$c,$query,"\$authors","count",-1,"Autores",20);
 
 <?php
 
-$cursor = $c->find()->skip($skip)->limit($limit)->sort($sort);;
+$cursor = $c->find($query)->skip($skip)->limit($limit)->sort($sort);;
 $total= $cursor->count();
 
 

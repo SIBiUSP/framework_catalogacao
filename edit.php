@@ -36,6 +36,13 @@ $c->update(array('_id'=>$_id),
              'authors'=>$_POST["authors"]
            )));
 
+echo '
+<div class="alert alert-success" role="alert">
+  <strong>Sucesso!</strong> Registro alterado com sucesso.
+  <a href="single.php?_id='.$_id.'">Ver registro</a>
+</div>
+';
+
 }
 else{
 $query =  array('_id' => ''.$_GET['_id'].'');
@@ -51,15 +58,6 @@ else {
 }
 
 $count_authors = count($cursor["authors"]);
-echo "$count_authors";
-
-/*
-if (!empty($cursor["authors"])) {
-  foreach ($cursor["authors"] as $at) {
-    echo 'Autores:'.$at.'<br/>';
-  }
-}
-*/
 
 ?>
 
@@ -68,6 +66,8 @@ if (!empty($cursor["authors"])) {
   <div class="col-md-8">
 
 <h3>Detalhes do registro</h3>
+
+<a href="single.php?_id=<?php echo "$_id"; ?>">Ver registro</a>
 
 <form action="edit.php" method="POST">
   <div class="form-group row">

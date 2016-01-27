@@ -5,6 +5,11 @@ catmandu import MARC --type ALEPHSEQ to MongoDB --database_name sibiusp --bag ca
 /* Importar dados para o MongoDB com fix */
 catmandu import MARC --fix fixes.txt --type ALEPHSEQ to MongoDB --database_name sibiusp --bag catalog  < ../data/smit.seq
 
+/* Criar indices */
+
+echo 'db.catalog.createIndex({title:"text",authors:"text"},{language_override:"pt",weights:{title: 10,authors: 9},name:"TextIndex"})' | mongo sibiusp
+
+
 /* Recuperar todos os registros */
 $result = $c::find();
 
