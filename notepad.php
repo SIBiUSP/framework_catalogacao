@@ -7,7 +7,7 @@ catmandu import MARC --fix fixes.txt --type ALEPHSEQ to MongoDB --database_name 
 
 /* Criar indices */
 
-echo 'db.catalog.createIndex({title:"text",authors:"text"},{language_override:"pt",weights:{title: 10,authors: 9},name:"TextIndex"})' | mongo sibiusp
+echo 'db.catalog.createIndex({title:"text",authors:"text",type_of_material:"text"},{language_override:"pt",weights:{title: 10,authors: 9},name:"TextIndex"})' | mongo sibiusp
 
 
 /* Recuperar todos os registros */

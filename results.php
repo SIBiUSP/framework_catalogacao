@@ -86,6 +86,7 @@
     echo "</ul>";
     }
 
+generateFacet($url,$c,$query,"\$type_of_material","count",-1,"Tipo de material",20);
 generateFacet($url,$c,$query,"\$authors","count",-1,"Autores",20);
 
 ?>
