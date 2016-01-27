@@ -2,7 +2,7 @@
   include ('inc/config.php');
   include ('inc/meta_header.php');
 ?>
-<title>MetaBuscaCI - Detalhes do registro</title>
+<title>Framework de catalogação do SIBiUSP</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -41,20 +41,6 @@ if (!empty($cursor["authors"])) {
 }
 echo 'Sysno:'.$cursor["sysno"].'<br/>';
 echo '<br/><br/>';
-
-<form>
-  <fieldset class="form-group">
-    <label for="formGroupExampleInput">Título</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="formGroupExampleInput2">Subtítulo</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-  </fieldset>
-</form>
-
-
-
 
 echo '<form method="get" action="edit.php">';
 echo '<input type="hidden">';

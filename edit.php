@@ -2,92 +2,110 @@
   include ('inc/config.php');
   include ('inc/meta_header.php');
 ?>
-<title>MetaBuscaCI - Detalhes do registro</title>
+<title>Framework de catalogação do SIBiUSP</title>
 </head>
 <body>
 <div class="container-fluid">
   <?php
     include "inc/header.php";
-  ?>
 
-  <div class="row">
-    <div class="col-md-4"><h3>Exportar</h3></div>
-    <div class="col-md-8">
 
-<h3>Detalhes do registro</h3>
-<?php
-/*
 error_reporting(E_ALL|E_STRICT);
 ini_set('display_errors', 1);
-*/
+
+
+if (!empty($_GET["_id"])) {
+$_id = ''.$_GET['_id'].'';
+}
+elseif (!empty($_POST["_id"])) {
+$_id = ''.$_POST['_id'].'';
+}
+else{
+
+}
+
+/* Update */
+if (!empty($_POST)) {
+
+$query =  array('_id' => ''.$_POST['_id'].'');
+
+$c->update(array('_id'=>$_id),
+           array('$set'=>array(
+             'title'=>$_POST["title"],
+             'subtitle'=>$_POST["subtitle"],
+             'authors'=>$_POST["authors"]
+           )));
+
+}
+else{
 $query =  array('_id' => ''.$_GET['_id'].'');
+}
 $cursor = $c->findOne($query);
 
-
-echo '_id:'.$cursor["_id"].'<br/>';
-
+$title=$cursor["title"];
 if (!empty($cursor["subtitle"])) {
-  echo '<a href="single.php?idx=_id&q='.$cursor["_id"].'">'.$cursor["title"].':'.$cursor["subtitle"].'</a><br/>';
+  $subtitle= $cursor["subtitle"];
 }
-else
-{
-  echo '<a href="single.php?idx=_id&q='.$cursor["_id"].'">'.$cursor["title"].'</a><br/>';
+else {
+  $subtitle="";
 }
 
+$count_authors = count($cursor["authors"]);
+echo "$count_authors";
+
+/*
 if (!empty($cursor["authors"])) {
   foreach ($cursor["authors"] as $at) {
     echo 'Autores:'.$at.'<br/>';
   }
 }
-echo 'Sysno:'.$cursor["sysno"].'<br/>';
-echo '<br/><br/>';
+*/
 
 ?>
 
-<form>
-  <fieldset class="form-group">
-    <label for="formGroupExampleInput">Título</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="formGroupExampleInput2">Subtítulo</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-  </fieldset>
-</form>
+<div class="row">
+  <div class="col-md-4"><h3>Exportar</h3></div>
+  <div class="col-md-8">
 
+<h3>Detalhes do registro</h3>
 
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $article = array();
-    $article['title'] = $_POST['title'];
-    $article['content'] = Markdown::defaultTransform($_POST['content']);
-    $article['saved_at'] = new MongoDate();
-
-    if (empty($article['title']) || empty($article['content'])) {
-        $data['status'] = 'Please fill out both inputs.';
-    } else {
-
-// then create a new row in the collection posts
-        $db->create('posts', $article);
-        $data['status'] = 'Row has successfully been inserted.';
-    }
-}
-$layout->view('admin/create', $data);
-?>
-
-<form action="" method="post">
-    <div><label for="Title">Title</label>
-        <input type="text" name="title" id="title" required="required"/>
+<form action="edit.php" method="POST">
+  <div class="form-group row">
+    <label for="disabledTextInput" class="col-sm-2 form-control-label">Sysno ou ID</label>
+    <div class="col-sm-10">
+    <input type="text" id="disabledTextInput" name="_id" class="form-control" placeholder="<?php echo "$_id";  ?>" value="<?php echo "$_id";  ?>">
     </div>
-    <label for="content">Content</label>
+  </div>
+  <div class="form-group row">
+    <label for="inputTitle" class="col-sm-2 form-control-label">Título</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="Título" name="title" value="<?php echo "$title";  ?>">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputSubtitle" class="col-sm-2 form-control-label">Subtítulo</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputPassword3" placeholder="Subtítulo" name="subtitle" value="<?php echo "$subtitle";  ?>">
+    </div>
+  </div>
+<?php
+$author_count=0;
+for ($author_count = 1; $author_count <= $count_authors; $author_count++) {
+echo '<div class="form-group row">';
+echo '<label for="inputAutor" class="col-sm-2 form-control-label">Autor</label>';
+echo '<div class="col-sm-10">';
+echo '<input type="text" class="form-control" id="inputPassword3" placeholder="Autor" name="authors[]" value="'.$cursor["authors"][$author_count-1].'">';
+echo '</div></div>';
+}
 
-    <p><textarea name="content" id="content" cols="40" rows="8" class="span10"></textarea></p>
 
-    <div class="submit"><input type="submit" name="btn_submit" value="Save"/></div>
+?>
+  <div class="form-group row">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-secondary">Salvar</button>
+    </div>
+  </div>
 </form>
-
 
 
 </div>
