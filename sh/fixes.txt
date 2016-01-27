@@ -1,4 +1,5 @@
 marc_map('001','sysno');
+marc_map('020','ISBN');
 marc_map('100','authors.$append');
 marc_map('110','authors.$append');
 marc_map('245a','title');

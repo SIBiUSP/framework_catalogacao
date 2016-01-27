@@ -26,6 +26,16 @@
             <button type="submit" class="btn btn-default">Buscar ou enviar arquivo</button>
           </form>
           </div>
+
+
+        <form action="results.php" method="get">
+          <div class="form-group">
+            <label for="inputISBN">ISBN</label>
+            <input type="text" class="form-control" name="ISBN" id="ISBN" placeholder="Insira os ISBNs para a pesquisa">
+          </div>
+          <button type="submit" class="btn btn-default">Buscar</button>
+        </form>
+
         <form action="results.php" method="get">
           <div class="form-group">
             <label for="inputTitulo">Título</label>
@@ -38,10 +48,6 @@
           <div class="form-group">
             <label for="inputAutores">Autores</label>
             <input type="text" class="form-control" id="inputAutores" placeholder="Insira os autores para a pesquisa">
-          </div>
-          <div class="form-group">
-            <label for="inputISBN">ISBN</label>
-            <input type="text" class="form-control" id="inputISBN" placeholder="Insira os ISBNs para a pesquisa">
           </div>
           <div class="form-group">
             <label for="inputDOI">DOI</label>
