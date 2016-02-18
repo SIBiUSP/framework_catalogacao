@@ -47,12 +47,12 @@
 
 </head>
 <body>
-  <div class="container-fluid">
+
   <?php
     include "inc/header.php";
   ?>
-  <div class="row">
-  <div class="col-xs-6 col-md-4">
+  <div class="ui two column stackable grid">
+  <div class="four wide column">
 
 <?php
     function generateFacet($url,$c,$query,$facet_name,$sort_name,$sort_value,$facet_display_name,$limit){
@@ -76,66 +76,67 @@
 
     $facet = $c->aggregate($aggregate_facet);
 
-    echo '<ul class="list-group">';
-    echo '<a href="#" class="list-group-item active">'.$facet_display_name.'</a>';
+    echo '<div class="item">';
+    echo '<a class="active title"><i class="dropdown icon"></i>'.$facet_display_name.'</a>';
+    echo '<div class="content">';
+    echo '<div class="ui list">';
     $i = 0;
     foreach ($facet["result"] as $facets) {
-      echo '<li class="list-group-item"><span class="label label-default label-pill pull-xs-right">'.$facets["count"].'</span><a href="'.$url.'&'.substr($facet_name, 1).'='.$facets["_id"].'">'.$facets["_id"].'</a></li>';
-      if(++$i > $limit) break;
+    echo '<div class="item">';
+    echo '<a href="'.$url.'&'.substr($facet_name, 1).'='.$facets["_id"].'">'.$facets["_id"].'</a><span> ('.$facets["count"].')</span>';
+    echo '</div>';
+    if(++$i > $limit) break;
     };
-    echo "</ul>";
+    echo   '</div>
+          </div>
+      </div>';
     }
-
-generateFacet($url,$c,$query,"\$type_of_material","count",-1,"Tipo de material",20);
-generateFacet($url,$c,$query,"\$authors","count",-1,"Autores",20);
-
 ?>
+<div class="ui fluid vertical accordion menu">
+  <?php
+  generateFacet($url,$c,$query,"\$type_of_material","count",-1,"Tipo de material",20);
+  generateFacet($url,$c,$query,"\$authors","count",-1,"Autores",20);
+  ?>
+</div>
 
 
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-8">
+
+</div>
+<div class="ten wide column">
 
 
 <?php
-
 $cursor = $c->find($query)->skip($skip)->limit($limit)->sort($sort);;
 $total= $cursor->count();
-
-
-
 print_r("<div class=\"page-header\"><h3>Resultado da busca <small>($total)</small></h3></div>");
-
+?>
+<?php
 /* Pagination - Start */
-
-echo '<nav>';
-echo '<ul class="pager">';
+echo '<br/><div class="ui buttons">';
 if($page > 1){
   echo '<form method="post" action="'.$escaped_url.'">';
   echo '<input type="hidden" name="extra_submit_param" value="extra_submit_value">';
-  echo '<li><button type="submit" name="page" class="btn btn-primary-outline" value="'.$prev.'">Anterior</button></li>';
+  echo '<button type="submit" name="page" class="ui labeled icon button active" value="'.$prev.'"><i class="left chevron icon"></i>Anterior</button>';
   if($page * $limit < $total) {
-    echo '<li><button type="submit" name="page" value="'.$next.'" class="btn btn-primary-outline">Próximo</button></li>';
+    echo '<button type="submit" name="page" value="'.$next.'" class="ui right labeled icon button active">Próximo<i class="right chevron icon"></i></button>';
   }
   else {
-    echo '<li><button class="btn btn-secondary" disabled>Próximo</button></li>';
+    echo '<button class="ui right labeled icon button disabled">Próximo<i class="right chevron icon"></i></button>';
   }
   echo '</form>';
 } else {
     if($page * $limit < $total) {
       echo '<form method="post" action="'.$escaped_url.'">';
       echo '<input type="hidden" name="extra_submit_param" value="extra_submit_value">';
-      echo '<li><button class="btn btn-secondary" disabled>Anterior</button></li>';
-      echo '<li><button type="submit" name="page" value="'.$next.'" class="btn btn-primary-outline">Próximo</button></li>';
+      echo '<button class="ui labeled icon button disabled"><i class="left chevron icon"></i>Anterior</button>';
+      echo '<button type="submit" name="page" value="'.$next.'" class="ui right labeled icon button active">Próximo<i class="right chevron icon"></i></button>';
       echo '</form>';
     }
 }
-echo '</ul>';
-echo '</nav>';
-
+echo '</div><br/><br/>';
 /* Pagination - End */
-
-
-
+?>
+<?php
 foreach ($cursor as $r) {
 echo '_id:'.$r["_id"].'<br/>';
 
@@ -188,5 +189,10 @@ echo '<br/><br/>';
 </div>
 </div>
 </div>
+<script>
+$('.ui.accordion')
+  .accordion()
+;
+</script>
 </body>
 </html>
